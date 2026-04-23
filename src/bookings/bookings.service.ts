@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { BookingPolicyService } from '../booking-policy/booking-policy.service';
 
@@ -34,14 +35,17 @@ export class BookingsService {
       throw new BadRequestException('Seats must be a positive integer.');
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const slot = await tx.timeSlot.findUnique({
         where: { id: input.timeSlotId },
         include: { bookings: true },
       });
       if (!slot) throw new NotFoundException('Time slot not found.');
 
-      const bookedSeats = slot.bookings.reduce((acc, b) => acc + b.seats, 0);
+      const bookedSeats = slot.bookings.reduce(
+        (acc: number, b: { seats: number }) => acc + b.seats,
+        0,
+      );
       const free = slot.capacity - bookedSeats;
       if (free < input.seats) {
         throw new BadRequestException('Not enough free seats.');
@@ -82,14 +86,17 @@ export class BookingsService {
       throw new BadRequestException('Seats must be a positive integer.');
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const slot = await tx.timeSlot.findUnique({
         where: { id: input.timeSlotId },
         include: { bookings: true },
       });
       if (!slot) throw new NotFoundException('Time slot not found.');
 
-      const bookedSeats = slot.bookings.reduce((acc, b) => acc + b.seats, 0);
+      const bookedSeats = slot.bookings.reduce(
+        (acc: number, b: { seats: number }) => acc + b.seats,
+        0,
+      );
       const free = slot.capacity - bookedSeats;
       if (free < input.seats) {
         throw new BadRequestException('Not enough free seats.');

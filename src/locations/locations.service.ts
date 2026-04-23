@@ -206,7 +206,10 @@ export class LocationsService {
     });
 
     return slots.map((s) => {
-      const bookedSeats = s.bookings.reduce((acc, b) => acc + b.seats, 0);
+      const bookedSeats = s.bookings.reduce(
+        (acc: number, b: { seats: number }) => acc + b.seats,
+        0,
+      );
       return {
         slot: {
           id: s.id,
@@ -216,13 +219,21 @@ export class LocationsService {
           capacity: s.capacity,
         },
         bookedSeats,
-        bookings: s.bookings.map((b) => ({
-          id: b.id,
-          timeSlotId: b.timeSlotId,
-          participantName: b.participantName,
-          seats: b.seats,
-          createdAtIso: b.createdAt.toISOString(),
-        })),
+        bookings: s.bookings.map(
+          (b: {
+            id: string;
+            timeSlotId: string;
+            participantName: string;
+            seats: number;
+            createdAt: Date;
+          }) => ({
+            id: b.id,
+            timeSlotId: b.timeSlotId,
+            participantName: b.participantName,
+            seats: b.seats,
+            createdAtIso: b.createdAt.toISOString(),
+          }),
+        ),
       };
     });
   }
