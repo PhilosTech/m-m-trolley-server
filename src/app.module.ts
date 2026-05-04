@@ -8,6 +8,7 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { BookingPolicyModule } from './booking-policy/booking-policy.module';
 import { LocationsModule } from './locations/locations.module';
 import { BookingsModule } from './bookings/bookings.module';
+import { MapLocationsModule } from './map-locations/map-locations.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { BookingsModule } from './bookings/bookings.module';
     BookingPolicyModule,
     LocationsModule,
     BookingsModule,
+    MapLocationsModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

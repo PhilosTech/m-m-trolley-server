@@ -22,6 +22,7 @@ export class PrismaService
           id: 1,
           isGlobalLocked: false,
           lockedLocationIds: [],
+          mapPhotoUrl: null,
         },
       });
     }

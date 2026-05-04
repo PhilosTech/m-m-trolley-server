@@ -50,4 +50,17 @@ model BookingPolicyState {
   id                  Int    @id @default(1)
   isGlobalLocked      Boolean @default(false)
   lockedLocationIds   Json    @default("[]")
+  mapPhotoUrl         String?
+}
+
+model MapLocationDraft {
+  id             String   @id @default(cuid())
+  positionNumber Int
+  title          String   @default("")
+  photoUrl       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([positionNumber])
+  @@index([createdAt])
 }

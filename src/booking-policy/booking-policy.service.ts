@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export type BookingPolicyDto = {
   isGlobalLocked: boolean;
   lockedLocationIds: string[];
+  mapPhotoUrl: string | null;
 };
 
 function parseLockedIds(value: unknown): string[] {
@@ -22,6 +23,7 @@ export class BookingPolicyService {
     return {
       isGlobalLocked: row.isGlobalLocked,
       lockedLocationIds: parseLockedIds(row.lockedLocationIds),
+      mapPhotoUrl: row.mapPhotoUrl ?? null,
     };
   }
 
@@ -46,6 +48,14 @@ export class BookingPolicyService {
     await this.prisma.bookingPolicyState.update({
       where: { id: 1 },
       data: { lockedLocationIds: Array.from(set) },
+    });
+    return this.getPolicy();
+  }
+
+  async setMapPhotoUrl(mapPhotoUrl: string | null): Promise<BookingPolicyDto> {
+    await this.prisma.bookingPolicyState.update({
+      where: { id: 1 },
+      data: { mapPhotoUrl },
     });
     return this.getPolicy();
   }
