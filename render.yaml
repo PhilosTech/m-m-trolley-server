@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: m-m-trolley-api
+    runtime: node
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm run migrate:deploy && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_ACCESS_CODE
+        sync: false
+      - key: PARTICIPANT_ACCESS_CODE
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: JSON_BODY_LIMIT
+        value: 32mb
+      - key: S3_ENDPOINT
+        sync: false
+      - key: S3_REGION
+        sync: false
+      - key: S3_ACCESS_KEY
+        sync: false
+      - key: S3_SECRET_KEY
+        sync: false
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_PUBLIC_BASE_URL
+        sync: false
