@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { json, urlencoded } from 'express';
+import { json, urlencoded, type Response } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use(json({ limit: jsonBodyLimit }));
   app.use(urlencoded({ limit: jsonBodyLimit, extended: true }));
   app.setGlobalPrefix('api/v1', { exclude: ['health'] });
-  app.getHttpAdapter().get('/health', (_req, res) => res.json({ ok: true }));
+  app.getHttpAdapter().get('/health', (_req, res: Response) => res.json({ ok: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
