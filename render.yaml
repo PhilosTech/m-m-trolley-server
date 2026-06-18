@@ -3,7 +3,7 @@ services:
     name: m-m-trolley-api
     runtime: node
     rootDir: .
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && npx prisma generate && npx nest build
     startCommand: npm run migrate:deploy && npm run start:prod
     envVars:
       - key: NODE_ENV
