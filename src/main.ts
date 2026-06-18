@@ -11,7 +11,8 @@ async function bootstrap() {
   });
   app.use(json({ limit: jsonBodyLimit }));
   app.use(urlencoded({ limit: jsonBodyLimit, extended: true }));
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix('api/v1', { exclude: ['health'] });
+  app.getHttpAdapter().get('/health', (_req, res) => res.json({ ok: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
